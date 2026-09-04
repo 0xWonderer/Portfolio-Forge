@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Playfair_Display, Space_Grotesk } from "next/font/google";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,7 +27,7 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const siteUrl = "https://portfolio-forge.dev";
+const siteUrl = getSiteUrl();
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -89,10 +90,11 @@ export const metadata: Metadata = {
     siteName: "PortfolioForge",
     images: [
       {
-        url: "/opengraph-image",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "PortfolioForge — Developer Portfolio Generator",
+        type: "image/png",
       },
     ],
   },
@@ -102,7 +104,7 @@ export const metadata: Metadata = {
     description:
       "Build and export interactive, standalone developer portfolios in Bento, Terminal, and Minimal themes in seconds.",
     creator: "@portfolioforge",
-    images: ["/twitter-image"],
+    images: ["/og-image.png"],
   },
   icons: {
     icon: [

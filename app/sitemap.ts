@@ -1,7 +1,8 @@
 import { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://portfolio-forge.dev";
+  const baseUrl = getSiteUrl();
   const lastModified = new Date();
 
   return [
