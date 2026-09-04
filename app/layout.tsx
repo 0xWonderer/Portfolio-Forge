@@ -39,11 +39,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PortfolioForge — Free Developer Portfolio Generator & Standalone Static Builder",
+    default: "PortfolioForge — Free Developer Portfolio Generator",
     template: "%s | PortfolioForge",
   },
   description:
-    "Build, customize, and export interactive, high-aesthetic developer portfolios live in real-time. Choose from Hyper Bento Grid, Interactive Terminal CLI, Minimal Editorial, and Cyberpunk HUD engines. Export 100% standalone static HTML, CSS & JS packages with zero runtime dependencies.",
+    "Build and export interactive, high-aesthetic developer portfolios live. Standalone static HTML, CSS, and JS packages with zero runtime dependencies.",
   applicationName: "PortfolioForge",
   authors: [{ name: "PortfolioForge Engineering", url: siteUrl }],
   generator: "Next.js",
@@ -58,10 +58,6 @@ export const metadata: Metadata = {
     "cyberpunk hud developer portfolio",
     "static html css js portfolio export",
     "github pages portfolio builder",
-    "frontend developer portfolio generator",
-    "backend developer portfolio builder",
-    "full stack engineer portfolio",
-    "dev portfolio builder free",
     "portfolioforge",
   ],
   referrer: "origin-when-cross-origin",
@@ -87,17 +83,26 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    title: "PortfolioForge — Next-Gen Developer Portfolio Generator & Static Builder",
+    title: "PortfolioForge — Developer Portfolio Generator",
     description:
-      "Craft interactive, mobile-responsive developer portfolios with instant live preview. Export production-ready standalone static HTML/CSS/JS bundles.",
+      "Build and export interactive, standalone developer portfolios in Bento, Terminal, and Minimal themes in seconds.",
     siteName: "PortfolioForge",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "PortfolioForge — Developer Portfolio Generator",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PortfolioForge — Developer Portfolio Generator & Static Builder",
+    title: "PortfolioForge — Developer Portfolio Generator",
     description:
-      "Design & export high-aesthetic developer portfolios in Bento, Terminal, Minimal & Synthwave themes in seconds.",
+      "Build and export interactive, standalone developer portfolios in Bento, Terminal, and Minimal themes in seconds.",
     creator: "@portfolioforge",
+    images: ["/twitter-image"],
   },
   icons: {
     icon: [

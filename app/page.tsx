@@ -256,53 +256,84 @@ export default function Home() {
       )}
 
       {/* Main Responsive Header (Guaranteed 0 Clipping across all device widths) */}
-      <header className="h-14 sm:h-15 bg-zinc-950/95 border-b border-zinc-800/90 sticky top-0 z-40 backdrop-blur-2xl px-2.5 sm:px-5 flex items-center w-full min-w-0">
-        <div className="w-full flex items-center justify-between gap-1.5 sm:gap-4 min-w-0">
+      <header className="h-13 sm:h-14 bg-zinc-950/95 border-b border-zinc-800/90 sticky top-0 z-40 backdrop-blur-2xl px-2 sm:px-4 flex items-center w-full min-w-0">
+        <div className="w-full flex items-center justify-between gap-1 sm:gap-3 min-w-0">
           
-          {/* Left: Brand Logo + Template Selector */}
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0 min-w-0">
-            <a href="/" className="flex items-center gap-1.5 sm:gap-2.5 shrink-0" aria-label="PortfolioForge Home">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.3)] shrink-0">
-                <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-950 font-black" />
-              </div>
-              <span className="font-extrabold text-sm sm:text-base tracking-tight text-white font-mono whitespace-nowrap">
-                <span className="hidden xs:inline">Portfolio</span><span className="text-emerald-400">Forge</span>
-              </span>
-            </a>
+          {/* Left: Brand Logo */}
+          <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="PortfolioForge Home">
+            <div className="w-6.5 h-6.5 sm:w-7.5 sm:h-7.5 rounded-lg sm:rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center shadow-[0_0_10px_rgba(16,185,129,0.3)] shrink-0">
+              <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-950 font-black" />
+            </div>
+            <span className="font-extrabold text-xs sm:text-sm tracking-tight text-white font-mono whitespace-nowrap">
+              <span className="hidden sm:inline">Portfolio</span><span className="text-emerald-400">Forge</span>
+            </span>
+          </a>
 
-            {/* Template Selector Pills (Desktop/Tablet) */}
-            <nav className="hidden md:flex items-center bg-zinc-900/90 p-0.5 rounded-xl border border-zinc-800 gap-0.5 shrink-0" aria-label="Template selector">
-              {templateShortcuts.map((tmpl) => {
-                const Icon = tmpl.icon;
-                const isSelected = currentVariant === tmpl.id;
-                return (
-                  <button
-                    key={tmpl.id}
-                    type="button"
-                    onClick={() => handleUpdate({ variant: tmpl.id })}
-                    className={`btn-base h-8 px-2.5 text-xs transition-all ${
-                      isSelected
-                        ? `bg-zinc-800 text-white shadow-sm border ${tmpl.activeBorder} font-bold`
-                        : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent"
-                    }`}
-                  >
-                    <Icon className={`w-3.5 h-3.5 ${tmpl.color}`} />
-                    <span>{tmpl.label}</span>
-                  </button>
-                );
-              })}
-            </nav>
+          {/* Center / Middle on Mobile: Segmented 1-Tap Toggle */}
+          <div className="flex sm:hidden bg-zinc-900/90 p-0.5 rounded-xl border border-zinc-800 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileTab("editor");
+                setViewMode("split");
+              }}
+              className={`btn-base h-7 px-2 text-[11px] min-h-0 ${
+                mobileTab === "editor"
+                  ? "bg-zinc-800 text-emerald-400 shadow-sm font-bold"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              <SlidersHorizontal className="w-3 h-3 shrink-0" />
+              <span>Editor</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileTab("preview");
+              }}
+              className={`btn-base h-7 px-2 text-[11px] min-h-0 ${
+                mobileTab === "preview"
+                  ? "bg-zinc-800 text-emerald-400 shadow-sm font-bold"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              <Eye className="w-3 h-3 shrink-0" />
+              <span>Preview</span>
+            </button>
           </div>
 
-          {/* Right: View Mode Toggle, Code Inspector & Guaranteed Fully Visible Export Button */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Template Selector Pills (Desktop/Tablet >= 768px) */}
+          <nav className="hidden md:flex items-center bg-zinc-900/90 p-0.5 rounded-xl border border-zinc-800 gap-0.5 shrink-0" aria-label="Template selector">
+            {templateShortcuts.map((tmpl) => {
+              const Icon = tmpl.icon;
+              const isSelected = currentVariant === tmpl.id;
+              return (
+                <button
+                  key={tmpl.id}
+                  type="button"
+                  onClick={() => handleUpdate({ variant: tmpl.id })}
+                  className={`btn-base h-7.5 px-2.5 text-xs transition-all ${
+                    isSelected
+                      ? `bg-zinc-800 text-white shadow-sm border ${tmpl.activeBorder} font-bold`
+                      : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent"
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${tmpl.color}`} />
+                  <span>{tmpl.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Right Action Buttons */}
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             
             {/* View Mode Toggle: Split vs Fullscreen (Desktop/Tablet) */}
             <div className="hidden sm:flex items-center bg-zinc-900/90 p-0.5 rounded-xl border border-zinc-800 shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode("split")}
-                className={`btn-base h-8 px-2.5 text-xs ${
+                className={`btn-base h-7.5 px-2 text-xs ${
                   viewMode === "split"
                     ? "bg-zinc-800 text-emerald-400 shadow-sm font-bold"
                     : "text-zinc-400 hover:text-white"
@@ -315,7 +346,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setViewMode(viewMode === "fullscreen" ? "split" : "fullscreen")}
-                className={`btn-base h-8 px-2.5 text-xs ${
+                className={`btn-base h-7.5 px-2 text-xs ${
                   viewMode === "fullscreen"
                     ? "bg-emerald-600 text-white shadow-[0_0_12px_rgba(16,185,129,0.4)] font-bold"
                     : "text-zinc-400 hover:text-white"
@@ -336,60 +367,28 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Mobile View Switcher (Smart 1-Tap Toggle on phones) */}
-            <div className="flex sm:hidden bg-zinc-900 p-0.5 rounded-xl border border-zinc-800 text-xs shrink-0">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileTab("editor");
-                  setViewMode("split");
-                }}
-                className={`btn-base h-7.5 px-2.5 ${
-                  mobileTab === "editor"
-                    ? "bg-zinc-800 text-emerald-400 shadow-sm font-bold"
-                    : "text-zinc-400 hover:text-white"
-                }`}
-              >
-                <SlidersHorizontal className="w-3 h-3" />
-                <span>Editor</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileTab("preview");
-                }}
-                className={`btn-base h-7.5 px-2.5 ${
-                  mobileTab === "preview"
-                    ? "bg-zinc-800 text-emerald-400 shadow-sm font-bold"
-                    : "text-zinc-400 hover:text-white"
-                }`}
-              >
-                <Eye className="w-3 h-3" />
-                <span>Preview</span>
-              </button>
-            </div>
-
-            {/* View Raw HTML Button (Desktop) */}
+            {/* View Raw HTML Button (Icon on mobile, Icon+text on tablet/desktop) */}
             <button
               type="button"
               onClick={() => setShowCodeModal(true)}
-              className="btn-base btn-secondary h-8 px-2.5 text-xs hidden lg:flex shrink-0"
+              className="btn-base btn-secondary h-7.5 w-7.5 p-0 sm:w-auto sm:px-2.5 text-xs shrink-0"
               title="Inspect Standalone HTML Code"
+              aria-label="Inspect Standalone HTML Code"
             >
-              <Code2 className="w-3.5 h-3.5 text-cyan-400" />
-              <span>HTML</span>
+              <Code2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="hidden sm:inline">HTML</span>
             </button>
 
-            {/* Primary Export .ZIP Button */}
+            {/* Primary Export .ZIP Button (Guaranteed 100% visible and unclipped) */}
             <button
               type="button"
               onClick={handleFastDownload}
               disabled={isExporting}
-              className="btn-base btn-primary h-8 sm:h-8.5 px-2.5 sm:px-3.5 text-xs font-extrabold shrink-0 shadow-md shadow-emerald-950/60"
+              className="btn-base btn-primary h-7.5 px-2.5 sm:px-3.5 text-xs font-extrabold shrink-0 shadow-md shadow-emerald-950/60"
+              title="Export static ZIP package"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span className="hidden xs:inline">{isExporting ? "Bundling..." : "Export .ZIP"}</span>
-              <span className="xs:hidden">ZIP</span>
+              <Download className="w-3.5 h-3.5 shrink-0" />
+              <span>{isExporting ? "..." : "ZIP"}</span>
             </button>
           </div>
         </div>
