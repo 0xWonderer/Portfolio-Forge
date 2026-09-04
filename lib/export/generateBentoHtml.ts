@@ -26,7 +26,7 @@ export function generateBentoHtml(data: PortfolioData): string {
   const projectsHtml = (data.projects || [])
     .map((p) => {
       const linkHtml = p.link
-        ? `<a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Visit Project">
+        ? `<a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Visit ${escapeHtml(p.title)} repository">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
           </a>`
         : "";
@@ -48,29 +48,57 @@ export function generateBentoHtml(data: PortfolioData): string {
 
   const socialsHtml = (data.socials || [])
     .map((s) => {
-      return `      <a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer" class="social-chip">
+      return `      <a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer" class="social-chip" aria-label="${escapeHtml(s.platform)} profile">
         <span class="social-name">${escapeHtml(s.platform)}</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
       </a>`;
     })
     .join("\n");
 
+  const schemaJson = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": data.name || "Alex Rivera",
+      "jobTitle": data.title || "Senior Systems Engineer",
+      "description": data.bio || "Building high-performance applications.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": data.location || "San Francisco, CA (Remote)",
+      },
+      "knowsAbout": data.skills || [],
+      "sameAs": (data.socials || []).map((s) => s.url).filter(Boolean),
+    },
+  });
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>${name} | ${title}</title>
   <meta name="description" content="${bio.slice(0, 160)}">
+  <meta name="author" content="${name}">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="${name} — ${title}">
+  <meta property="og:description" content="${bio.slice(0, 160)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${name} — ${title}">
+  <meta name="twitter:description" content="${bio.slice(0, 160)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  ${schemaJson}
+  </script>
 </head>
 <body>
-  <div class="bento-container">
+  <main class="bento-container">
     
-    <!-- Top Row: Hero Card (2 cols) & Overview Stats Card (1 col) -->
+    <!-- Top Row: Hero Card & Overview Stats Card -->
     <div class="bento-grid-top">
       <header class="bento-card hero-card">
         <div class="status-badge">
@@ -100,7 +128,7 @@ export function generateBentoHtml(data: PortfolioData): string {
     </div>
 
     <!-- Skills Card -->
-    <section class="bento-card skills-card">
+    <section class="bento-card skills-card" aria-label="Technical Skills">
       <div class="section-label">ENGINEERING STACK</div>
       <div class="skills-wrap">
 ${skillsHtml}
@@ -108,7 +136,7 @@ ${skillsHtml}
     </section>
 
     <!-- Projects Grid -->
-    <section class="projects-section">
+    <section class="projects-section" aria-label="Featured Projects">
       <div class="section-label" style="margin-bottom: 0.75rem; padding-left: 0.25rem;">SELECTED PROJECTS</div>
       <div class="projects-grid">
 ${projectsHtml}
@@ -116,7 +144,7 @@ ${projectsHtml}
     </section>
 
     <!-- Connect & Socials Card -->
-    <section class="bento-card socials-card">
+    <section class="bento-card socials-card" aria-label="Social Links">
       <div class="section-label">GET IN TOUCH</div>
       <div class="socials-wrap">
 ${socialsHtml}
@@ -126,7 +154,7 @@ ${socialsHtml}
     <footer class="bento-footer">
       <div>Generated with PortfolioForge (Cyber Bento)</div>
     </footer>
-  </div>
+  </main>
   <script src="script.js"></script>
 </body>
 </html>

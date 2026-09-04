@@ -4,13 +4,16 @@ import { getThemeClasses } from "@/lib/theme-colors";
 export function generateBentoCss(data: PortfolioData): string {
   const theme = getThemeClasses(data.themeConfig?.accentColor);
 
-  return `/* PortfolioForge - Cyber Bento Standalone Stylesheet */
+  return `/* ==========================================================================
+   PortfolioForge - Cyber Bento Standalone Stylesheet
+   Responsive & SEO-Optimized Architecture
+   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
   --bg-page: #090c12;
-  --bg-card: rgba(18, 24, 38, 0.7);
-  --bg-card-hover: rgba(26, 34, 52, 0.85);
+  --bg-card: rgba(18, 24, 38, 0.75);
+  --bg-card-hover: rgba(26, 34, 52, 0.9);
   --border-card: rgba(255, 255, 255, 0.08);
   --border-hover: ${theme.hex}66;
   --text-main: #f8fafc;
@@ -28,6 +31,12 @@ export function generateBentoCss(data: PortfolioData): string {
   padding: 0;
 }
 
+html {
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-page);
@@ -37,6 +46,9 @@ body {
   display: flex;
   justify-content: center;
   line-height: 1.6;
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .bento-container {
@@ -45,17 +57,22 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  min-width: 0;
 }
 
 .bento-card {
   background: var(--bg-card);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-card);
   border-radius: 20px;
   padding: 1.75rem;
   transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .bento-card:hover {
@@ -68,12 +85,8 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 1.25rem;
-}
-
-@media (max-width: 768px) {
-  .bento-grid-top {
-    grid-template-columns: 1fr;
-  }
+  width: 100%;
+  min-width: 0;
 }
 
 .status-badge {
@@ -99,18 +112,21 @@ body {
 }
 
 .hero-name {
-  font-size: 2.25rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   color: #ffffff;
   margin-bottom: 0.25rem;
+  line-height: 1.15;
+  word-break: break-word;
 }
 
 .hero-title {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
   font-weight: 600;
   color: var(--accent);
   margin-bottom: 1rem;
+  word-break: break-word;
 }
 
 .hero-bio {
@@ -118,6 +134,7 @@ body {
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 1rem;
+  word-break: break-word;
 }
 
 .hero-location {
@@ -146,6 +163,7 @@ body {
   font-weight: 800;
   color: #ffffff;
   line-height: 1;
+  font-family: var(--font-mono);
 }
 
 .stat-text {
@@ -181,12 +199,8 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
-}
-
-@media (max-width: 768px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
+  width: 100%;
+  min-width: 0;
 }
 
 .project-card {
@@ -204,12 +218,14 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  gap: 0.5rem;
 }
 
 .project-title {
   font-size: 1.05rem;
   font-weight: 700;
   color: #ffffff;
+  word-break: break-word;
 }
 
 .project-link {
@@ -218,6 +234,9 @@ body {
   padding: 4px;
   border-radius: 6px;
   transition: color 0.2s;
+  shrink: 0;
+  display: inline-flex;
+  align-items: center;
 }
 
 .project-link:hover {
@@ -229,6 +248,7 @@ body {
   color: var(--text-muted);
   line-height: 1.6;
   margin-bottom: 1.25rem;
+  word-break: break-word;
 }
 
 .project-tags {
@@ -246,6 +266,7 @@ body {
   border: 1px solid ${theme.hex}30;
   padding: 2px 8px;
   border-radius: 6px;
+  font-family: var(--font-mono);
 }
 
 .socials-wrap {
@@ -268,6 +289,7 @@ body {
   gap: 6px;
   text-transform: capitalize;
   transition: all 0.2s;
+  min-height: 40px;
 }
 
 .social-chip:hover {
@@ -282,6 +304,48 @@ body {
   font-size: 0.75rem;
   color: var(--text-dim);
   padding-top: 1rem;
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   Mobile & Tablet Responsiveness
+   ========================================================================== */
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .bento-grid-top {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.5rem;
+  }
+
+  .bento-card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .socials-wrap {
+    gap: 8px;
+  }
+
+  .social-chip {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 `;
 }

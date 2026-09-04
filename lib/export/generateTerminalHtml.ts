@@ -16,6 +16,7 @@ export function generateTerminalHtml(data: PortfolioData): string {
   const bio = escapeHtml(data.bio || "Welcome to my interactive terminal portfolio.");
   const location = escapeHtml(data.location || "Earth (Remote)");
   const terminalName = escapeHtml(data.themeConfig?.terminalName || "guest@portfolio");
+  const terminalUser = terminalName;
   const skills = data.skills || [];
   const projects = data.projects || [];
   const socials = data.socials || [];
@@ -40,7 +41,7 @@ export function generateTerminalHtml(data: PortfolioData): string {
           const escTitle = escapeHtml(proj.title);
           const escDesc = escapeHtml(proj.description);
           const linkHtml = proj.link
-            ? `<a href="${escapeHtml(proj.link)}" target="_blank" rel="noopener noreferrer" class="project-link-btn">
+            ? `<a href="${escapeHtml(proj.link)}" target="_blank" rel="noopener noreferrer" class="project-link-btn" aria-label="Open ${escTitle} repository">
                 <span>[open_repo]</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
               </a>`
@@ -74,7 +75,7 @@ export function generateTerminalHtml(data: PortfolioData): string {
           const url = escapeHtml(soc.url || "#");
           const label = escapeHtml(soc.label || soc.url || platform);
 
-          return `        <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-card">
+          return `        <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-card" aria-label="${platform} link">
           <div class="social-info">
             <span class="social-arrow">&gt;</span>
             <div>
@@ -88,171 +89,167 @@ export function generateTerminalHtml(data: PortfolioData): string {
         .join("\n")
     : `        <p style="color: var(--text-dim); font-size: 0.85rem;">// No socials added yet.</p>`;
 
+  const schemaJson = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": data.name || "Alex Rivera",
+      "jobTitle": data.title || "Software Engineer",
+      "description": data.bio || "Welcome to my interactive terminal portfolio.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": data.location || "Earth (Remote)",
+      },
+      "knowsAbout": data.skills || [],
+      "sameAs": (data.socials || []).map((s) => s.url).filter(Boolean),
+    },
+  });
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>${name} | ${title}</title>
   <meta name="description" content="${bio.slice(0, 160)}">
-  <meta property="og:title" content="${name} - ${title}">
+  <meta name="author" content="${name}">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="${name} — ${title}">
   <meta property="og:description" content="${bio.slice(0, 160)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${name} — ${title}">
+  <meta name="twitter:description" content="${bio.slice(0, 160)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  ${schemaJson}
+  </script>
 </head>
 <body>
   <div class="scanlines-overlay"></div>
 
-  <div class="terminal-window">
+  <main class="terminal-window">
+    
     <!-- Titlebar -->
     <div class="terminal-titlebar">
       <div class="terminal-dots">
-        <span class="dot dot-red"></span>
-        <span class="dot dot-yellow"></span>
-        <span class="dot dot-green"></span>
+        <span class="dot dot-close"></span>
+        <span class="dot dot-minimize"></span>
+        <span class="dot dot-maximize"></span>
       </div>
-      <div class="terminal-title">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-        <span>${terminalName}: ~</span>
-      </div>
-      <div class="terminal-status">&#9679; ONLINE</div>
+      <div class="terminal-title">${terminalName} — zsh — 80x24</div>
+      <div style="width: 52px;"></div>
     </div>
 
-    <!-- Terminal Body -->
+    <!-- Terminal Content Body -->
     <div class="terminal-body">
       
-      <!-- Prompt & Hero Section -->
-      <header class="hero-section">
-        <div class="prompt-line">
-          <span class="prompt-user">${terminalName}</span>
-          <span class="prompt-symbol">$&gt;</span>
-          <span class="prompt-command" id="typing-whoami-cmd">whoami --verbose</span>
-          <span class="cursor-blink"></span>
+      <!-- Top Typewriter Prompt & Hero -->
+      <header class="terminal-header">
+        <div class="terminal-prompt-line">
+          <span class="prompt-user">${terminalUser}</span>
+          <span class="prompt-sym">$&gt;</span>
+          <span id="typewriter-cmd" class="prompt-cmd">whoami --verbose</span>
+          <span class="cursor-block"></span>
         </div>
 
-        <h1 class="hero-name" id="hero-name-target">${name}</h1>
-        <div class="hero-title" id="hero-title-target">${title}</div>
+        <h1 class="terminal-hero-name">${name}</h1>
+        <p class="terminal-hero-title">${title}</p>
 
-        <div class="system-specs" id="system-specs-box">
-          <div class="spec-item">
-            <span class="spec-label">LOC:</span>
-            <span class="spec-value">${location}</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">SHELL:</span>
-            <span class="spec-value">zsh 5.9</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">UPTIME:</span>
-            <span class="spec-value">99.99%</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">STATUS:</span>
-            <span class="spec-value status-ready">READY</span>
-          </div>
+        <div class="terminal-diagnostics">
+          <div class="diag-item"><span class="diag-label">LOC:</span> ${location}</div>
+          <div class="diag-item"><span class="diag-label">SHELL:</span> zsh 5.9</div>
+          <div class="diag-item"><span class="diag-label">UPTIME:</span> 99.99%</div>
+          <div class="diag-item"><span class="diag-label">STATUS:</span> <span class="status-ready">READY</span></div>
         </div>
       </header>
 
-      <!-- Command Navigation Bar -->
-      <nav class="nav-section">
-        <div class="nav-header-label">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
-          <span>QUICK COMMANDS (CLICK TO NAVIGATE)</span>
-        </div>
-        <div class="nav-commands">
-          <a href="#sec-about" class="cmd-btn" data-target-section="sec-about">
-            <span>cat about.txt</span>
-          </a>
-          <a href="#sec-skills" class="cmd-btn" data-target-section="sec-skills">
-            <span>ls -la skills/</span>
-          </a>
-          <a href="#sec-projects" class="cmd-btn" data-target-section="sec-projects">
-            <span>ls -l projects/</span>
-          </a>
-          <a href="#sec-socials" class="cmd-btn" data-target-section="sec-socials">
-            <span>open socials/</span>
-          </a>
-        </div>
+      <!-- Quick Nav -->
+      <nav class="quick-commands-bar" aria-label="Terminal Sections Navigation">
+        <a href="#about" class="cmd-pill">$ cat about.txt</a>
+        <a href="#skills" class="cmd-pill">$ ls -la skills/</a>
+        <a href="#projects" class="cmd-pill">$ ls -l projects/</a>
+        <a href="#socials" class="cmd-pill">$ open socials/</a>
       </nav>
 
-      <!-- Main Content Sections -->
-      <main>
-        <!-- About Section -->
-        <section id="sec-about" class="terminal-section">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-tag">[01]</span>
-              <h2 class="section-title">cat about.txt</h2>
-            </div>
-            <span class="section-meta">UTF-8 text</span>
+      <!-- Section 1: About -->
+      <section id="about" class="terminal-section">
+        <div class="section-header-bar">
+          <div class="section-title">
+            <span class="section-num">[01]</span>
+            <span>cat about.txt</span>
           </div>
-          <div class="about-box">
-            <p>${bio}</p>
-          </div>
-        </section>
+          <span class="section-meta">UTF-8 text</span>
+        </div>
+        <div class="about-card">
+          <p>${bio}</p>
+        </div>
+      </section>
 
-        <!-- Skills Section -->
-        <section id="sec-skills" class="terminal-section">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-tag">[02]</span>
-              <h2 class="section-title">ls -la skills/</h2>
-            </div>
-            <span class="section-meta">${skills.length} items</span>
+      <!-- Section 2: Skills -->
+      <section id="skills" class="terminal-section">
+        <div class="section-header-bar">
+          <div class="section-title">
+            <span class="section-num">[02]</span>
+            <span>ls -la skills/</span>
           </div>
-          <div class="skills-grid">
+          <span class="section-meta">${skills.length} competencies</span>
+        </div>
+        <div class="skills-grid">
 ${skillsHtml}
-          </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Projects Section -->
-        <section id="sec-projects" class="terminal-section">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-tag">[03]</span>
-              <h2 class="section-title">ls -l projects/</h2>
-            </div>
-            <span class="section-meta">${projects.length} repositories</span>
+      <!-- Section 3: Projects -->
+      <section id="projects" class="terminal-section">
+        <div class="section-header-bar">
+          <div class="section-title">
+            <span class="section-num">[03]</span>
+            <span>ls -l projects/</span>
           </div>
-          <div class="projects-list">
+          <span class="section-meta">${projects.length} repositories</span>
+        </div>
+        <div class="projects-list">
 ${projectsHtml}
-          </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Socials Section -->
-        <section id="sec-socials" class="terminal-section">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-tag">[04]</span>
-              <h2 class="section-title">open socials/</h2>
-            </div>
-            <span class="section-meta">channels</span>
+      <!-- Section 4: Socials -->
+      <section id="socials" class="terminal-section">
+        <div class="section-header-bar">
+          <div class="section-title">
+            <span class="section-num">[04]</span>
+            <span>open socials/</span>
           </div>
-          <div class="socials-grid">
+          <span class="section-meta">${socials.length} endpoints</span>
+        </div>
+        <div class="socials-grid">
 ${socialsHtml}
-          </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Interactive Mini CLI Box -->
-        <section class="terminal-interactive-box">
-          <div class="interactive-output" id="terminal-cli-output">Type 'help' for available commands, or click the navigation shortcuts above.</div>
-          <div class="interactive-input-row">
-            <span class="prompt-user">${terminalName}</span>
-            <span class="prompt-symbol">$&gt;</span>
-            <input type="text" id="terminal-cli-input" class="cli-input" placeholder="Type a command (e.g. whoami, skills, projects, help)..." autocomplete="off" spellcheck="false">
-          </div>
-        </section>
-      </main>
+      <!-- Interactive Mini Bash Input Box -->
+      <section class="terminal-interactive-box" aria-label="Interactive CLI">
+        <div id="cli-output" class="interactive-output">Type 'help' for available commands (or try 'sudo hire', 'whoami', 'matrix').</div>
+        <div class="interactive-input-row">
+          <span class="prompt-user">${terminalUser}</span>
+          <span class="prompt-sym">$&gt;</span>
+          <input type="text" id="cli-input" class="cli-input" placeholder="Type a command..." autocomplete="off" />
+        </div>
+      </section>
 
       <!-- Footer -->
       <footer class="terminal-footer">
-        <div>Generated with <a href="#" class="footer-link">PortfolioForge</a></div>
-        <div>exit status: 0 (clean)</div>
+        <div>[PORTFOLIO_FORGE // TERMINAL_OS v3.2]</div>
+        <div>ALL SYSTEM DIAGNOSTICS: NOMINAL</div>
       </footer>
+
     </div>
-  </div>
+  </main>
 
   <script src="script.js"></script>
 </body>

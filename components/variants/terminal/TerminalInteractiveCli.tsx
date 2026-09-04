@@ -92,22 +92,24 @@ Follow the white rabbit.`);
   };
 
   return (
-    <div className="mt-8 bg-zinc-950 border border-zinc-800/80 rounded-xl p-3.5 font-mono text-xs shadow-inner">
+    <div className="mt-8 bg-zinc-950 border border-zinc-800/80 rounded-xl p-3 sm:p-3.5 font-mono text-xs shadow-inner w-full min-w-0">
       {outputVal && (
-        <div className="text-zinc-300 mb-3 whitespace-pre-wrap leading-relaxed border-b border-zinc-850 pb-2 text-[11px] sm:text-xs">
+        <div className="text-zinc-300 mb-3 whitespace-pre-wrap leading-relaxed border-b border-zinc-850 pb-2 text-[11px] sm:text-xs break-words font-mono">
           {outputVal}
         </div>
       )}
-      <div className="flex items-center gap-2">
-        <span className="text-emerald-400 font-semibold">{terminalUser}</span>
-        <span className="text-zinc-500">$&gt;</span>
+      <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 w-full min-w-0">
+        <div className="flex items-center gap-1 shrink-0">
+          <span className="text-emerald-400 font-semibold text-[11px] sm:text-xs truncate max-w-[150px]">{terminalUser}</span>
+          <span className="text-zinc-500">$&gt;</span>
+        </div>
         <input
           type="text"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type 'help', 'whoami', 'skills', 'sudo hire'..."
-          className="flex-1 bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 text-xs font-mono"
+          placeholder="Type 'help', 'whoami', 'sudo hire'..."
+          className="flex-1 bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 text-xs font-mono min-w-[140px] w-full"
         />
       </div>
     </div>

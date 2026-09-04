@@ -51,7 +51,7 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full min-w-0">
       {/* Section Header */}
       <div className="flex items-center justify-between gap-3 pb-3 border-b border-zinc-800/80">
         <div>
@@ -66,7 +66,7 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
         <button
           type="button"
           onClick={addProject}
-          className="btn-base btn-primary h-8.5 px-3"
+          className="btn-base btn-primary h-8.5 px-3 shadow-sm shrink-0"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Add Project</span>
@@ -74,20 +74,20 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
       </div>
 
       {projects.length > 0 ? (
-        <div className="space-y-3.5">
+        <div className="space-y-3.5 w-full min-w-0">
           {projects.map((proj, idx) => (
             <div
               key={proj.id || idx}
-              className="p-4 bg-zinc-950/70 border border-zinc-800/80 rounded-xl space-y-3 relative group transition-all focus-within:border-emerald-500/40 shadow-sm"
+              className="p-3.5 sm:p-4 bg-zinc-950/70 border border-zinc-800/80 rounded-xl space-y-3 relative group transition-all focus-within:border-emerald-500/40 shadow-sm w-full min-w-0"
             >
-              <div className="flex items-center justify-between pb-2 border-b border-zinc-850">
+              <div className="flex items-center justify-between pb-2 border-b border-zinc-850 gap-2">
                 <span className="text-xs font-mono font-bold text-emerald-400">
                   Project #{idx + 1}
                 </span>
                 <button
                   type="button"
                   onClick={() => removeProject(proj.id)}
-                  className="btn-base btn-ghost h-7 w-7 p-0 text-zinc-400 hover:text-rose-400"
+                  className="btn-base btn-ghost h-7 w-7 p-0 text-zinc-400 hover:text-rose-400 shrink-0"
                   title="Remove Project"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -95,8 +95,8 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
               </div>
 
               {/* Title & Link */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full min-w-0">
+                <div className="min-w-0">
                   <label className="block text-xs text-zinc-300 font-semibold mb-1">
                     Project Title <span className="text-rose-400">*</span>
                   </label>
@@ -108,7 +108,7 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
                     className="form-input"
                   />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <label className="block text-xs text-zinc-300 font-semibold mb-1 flex items-center gap-1">
                     <span>Repository / Live URL</span>
                     <ExternalLink className="w-3 h-3 text-zinc-400" />
@@ -124,7 +124,7 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
               </div>
 
               {/* Description */}
-              <div>
+              <div className="w-full min-w-0">
                 <label className="block text-xs text-zinc-300 font-semibold mb-1">
                   Description / Technical Highlights
                 </label>
@@ -138,12 +138,12 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
               </div>
 
               {/* Tags / Tech Flags */}
-              <div>
+              <div className="w-full min-w-0">
                 <label className="block text-xs text-zinc-300 font-semibold mb-1 flex items-center gap-1">
                   <Tag className="w-3 h-3 text-cyan-400" />
                   <span>Tech Flags (--tag:name)</span>
                 </label>
-                <div className="flex gap-2 mb-2">
+                <div className="flex flex-wrap sm:flex-nowrap gap-2 mb-2 w-full min-w-0">
                   <input
                     type="text"
                     value={tagInputs[proj.id] || ""}
@@ -156,30 +156,31 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
                         addTagToProject(proj.id, tagInputs[proj.id] || "");
                       }
                     }}
-                    placeholder="Add tag (e.g. rust, redis, grpc) & press Enter"
-                    className="form-input flex-1 h-8"
+                    placeholder="Add tag (e.g. rust, redis) & press Enter"
+                    className="form-input flex-1 min-w-0"
                   />
                   <button
                     type="button"
                     onClick={() => addTagToProject(proj.id, tagInputs[proj.id] || "")}
-                    className="btn-base btn-secondary h-8 px-3 text-xs"
+                    className="btn-base btn-secondary h-9 sm:h-8.5 px-3.5 text-xs shrink-0"
                   >
                     + Tag
                   </button>
                 </div>
 
                 {proj.tags && proj.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1.5 pt-1">
                     {proj.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[10px] font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded-md flex items-center gap-1.5"
+                        className="text-[10px] sm:text-[11px] font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded-md flex items-center gap-1.5"
                       >
                         <span>--tag:{tag}</span>
                         <button
                           type="button"
                           onClick={() => removeTagFromProject(proj.id, tag)}
-                          className="text-cyan-400 hover:text-rose-400 cursor-pointer font-bold"
+                          className="text-cyan-400 hover:text-rose-400 cursor-pointer font-bold ml-0.5"
+                          aria-label={`Remove tag ${tag}`}
                         >
                           &times;
                         </button>
@@ -192,7 +193,7 @@ export const ProjectsStep: React.FC<ProjectsStepProps> = ({ projects, onChange }
           ))}
         </div>
       ) : (
-        <div className="p-8 bg-zinc-950/40 border border-dashed border-zinc-800 rounded-xl text-center space-y-2">
+        <div className="p-6 sm:p-8 bg-zinc-950/40 border border-dashed border-zinc-800 rounded-xl text-center space-y-2">
           <p className="text-xs text-zinc-400">No projects added yet.</p>
           <button
             type="button"

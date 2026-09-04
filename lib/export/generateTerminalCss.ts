@@ -647,5 +647,44 @@ body {
 .footer-link:hover {
   color: var(--accent);
 }
+
+/* ==========================================================================
+   Mobile & Small Screen Breakpoints
+   ========================================================================== */
+@media (max-width: 768px) {
+  body {
+    padding: 1.25rem 0.75rem 3rem 0.75rem;
+  }
+
+  .terminal-body {
+    padding: 1.25rem;
+  }
+
+  .socials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-commands-bar {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 0.75rem 0.35rem 2rem 0.35rem;
+  }
+
+  .terminal-titlebar {
+    padding: 0.65rem 0.85rem;
+  }
+
+  .terminal-body {
+    padding: 1rem 0.75rem;
+  }
+
+  .interactive-input-row {
+    flex-wrap: wrap;
+  }
+}
 `;
 }

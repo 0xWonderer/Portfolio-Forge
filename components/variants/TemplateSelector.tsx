@@ -73,7 +73,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   onSelect,
 }) => {
   return (
-    <div className="grid grid-cols-1 gap-3">
+    <div className="grid grid-cols-1 gap-3 w-full min-w-0">
       {TEMPLATE_OPTIONS.map((tmpl) => {
         const Icon = tmpl.icon;
         const isSelected = (currentVariant || "bento") === tmpl.id;
@@ -82,27 +82,27 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           <div
             key={tmpl.id}
             onClick={() => onSelect(tmpl.id)}
-            className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
+            className={`p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between group w-full min-w-0 ${
               isSelected
                 ? `${tmpl.borderActive} ${tmpl.bgGlow} shadow-[0_4px_20px_rgba(0,0,0,0.5)] bg-zinc-900/90`
                 : "bg-zinc-950/60 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/60"
             }`}
           >
-            {/* Header with Title and Checkmark on the same flex line */}
-            <div className="flex items-start justify-between gap-3 mb-2">
-              <div className="flex items-center gap-3">
+            {/* Header with Title and Checkmark */}
+            <div className="flex items-center justify-between gap-2.5 mb-2 min-w-0">
+              <div className="flex items-center gap-2.5 min-w-0">
                 <div
-                  className={`p-2.5 rounded-xl ${
+                  className={`p-2 sm:p-2.5 rounded-xl ${
                     isSelected ? "bg-zinc-900" : "bg-zinc-900/80"
-                  } border border-zinc-800 shadow-inner group-hover:scale-105 transition-transform`}
+                  } border border-zinc-800 shadow-inner group-hover:scale-105 transition-transform shrink-0`}
                 >
                   <Icon className={`w-4 h-4 ${tmpl.accent}`} />
                 </div>
-                <div>
-                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <div className="min-w-0">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5 truncate">
                     <span>{tmpl.name}</span>
                   </h3>
-                  <span className="text-[11px] text-zinc-400 font-mono">
+                  <span className="text-[11px] text-zinc-400 font-mono truncate block">
                     {tmpl.category}
                   </span>
                 </div>
@@ -110,7 +110,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
 
               {/* Status Indicator */}
               {isSelected ? (
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/40 text-[11px] font-bold shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+                <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/40 text-[11px] font-bold shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.3)]">
                   <Check className="w-3 h-3 stroke-[3]" />
                   <span>Active</span>
                 </div>
@@ -122,7 +122,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
             </div>
 
             {/* Description */}
-            <p className="text-xs text-zinc-300 leading-relaxed mb-3 pl-0.5">
+            <p className="text-xs text-zinc-300 leading-relaxed mb-3 pl-0.5 break-words">
               {tmpl.description}
             </p>
 

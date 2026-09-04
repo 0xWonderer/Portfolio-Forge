@@ -58,9 +58,9 @@ export const PortfolioForm: React.FC<PortfolioFormProps> = ({
 
   return (
     <div className="flex flex-col h-full w-full bg-zinc-900/70 rounded-2xl border border-zinc-800/90 overflow-hidden shadow-2xl backdrop-blur-xl min-w-0">
-      {/* Top Expanding Accordion Tab Bar with Smooth Mobile Overflow Handling */}
+      {/* Top Expanding Accordion Tab Bar with Smooth Mobile Overflow & Touch Snapping */}
       <div className="bg-zinc-950/90 border-b border-zinc-800/90 p-2 sm:p-3 shrink-0">
-        <div className="flex items-center gap-1 sm:gap-1.5 w-full overflow-x-auto custom-scrollbar pb-0.5">
+        <div className="flex items-center gap-1 sm:gap-1.5 w-full overflow-x-auto custom-scrollbar pb-1 snap-x-mandatory">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             const isActive = activeStep === idx;
@@ -71,12 +71,12 @@ export const PortfolioForm: React.FC<PortfolioFormProps> = ({
                 key={step.id}
                 type="button"
                 onClick={() => setActiveStep(idx)}
-                className={`flex items-center justify-center gap-1.5 py-1.5 px-2 sm:py-2 sm:px-3 rounded-xl transition-all duration-300 cursor-pointer ${
+                className={`flex items-center justify-center gap-1.5 py-1.5 px-2.5 sm:py-2 sm:px-3 rounded-xl transition-all duration-200 cursor-pointer snap-start shrink-0 min-h-[36px] ${
                   isActive
-                    ? "flex-1 min-w-[75px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.2)] font-bold text-xs"
+                    ? "flex-1 min-w-[85px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.2)] font-bold text-xs"
                     : isCompleted
-                    ? "shrink-0 bg-zinc-900/80 text-zinc-300 hover:bg-zinc-900 border border-zinc-800 hover:text-white"
-                    : "shrink-0 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50 border border-transparent"
+                    ? "bg-zinc-900/80 text-zinc-300 hover:bg-zinc-900 border border-zinc-800 hover:text-white text-xs"
+                    : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50 border border-transparent text-xs"
                 }`}
                 title={step.label}
               >
@@ -93,11 +93,7 @@ export const PortfolioForm: React.FC<PortfolioFormProps> = ({
                     )}
                   </div>
                 ) : (
-                  step.count !== "" && (
-                    <span className="text-[8px] sm:text-[9px] font-mono px-1 rounded bg-zinc-850 text-zinc-400 leading-none hidden xs:inline">
-                      {step.count}
-                    </span>
-                  )
+                  <span className="text-[11px] sm:text-xs whitespace-nowrap">{step.label}</span>
                 )}
               </button>
             );
@@ -105,7 +101,7 @@ export const PortfolioForm: React.FC<PortfolioFormProps> = ({
         </div>
 
         {/* Linear progress indicator */}
-        <div className="w-full bg-zinc-900 h-1 mt-2 sm:mt-2.5 rounded-full overflow-hidden">
+        <div className="w-full bg-zinc-900 h-1 mt-1.5 sm:mt-2 rounded-full overflow-hidden">
           <div
             className="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 h-full transition-all duration-300 rounded-full"
             style={{ width: `${((activeStep + 1) / steps.length) * 100}%` }}
@@ -114,7 +110,7 @@ export const PortfolioForm: React.FC<PortfolioFormProps> = ({
       </div>
 
       {/* Step Content Area */}
-      <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 custom-scrollbar min-w-0">
+      <div className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-6 custom-scrollbar min-w-0">
         {activeStep === 0 && (
           <TemplateStep
             currentVariant={data.variant || "bento"}
@@ -156,10 +152,10 @@ export const PortfolioForm: React.FC<PortfolioFormProps> = ({
           type="button"
           onClick={() => setActiveStep((prev) => Math.max(0, prev - 1))}
           disabled={activeStep === 0}
-          className={`flex items-center gap-1 sm:gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold border transition-colors cursor-pointer ${
+          className={`flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold border transition-colors cursor-pointer min-h-[38px] ${
             activeStep === 0
               ? "opacity-30 border-transparent text-zinc-600 cursor-not-allowed"
-              : "border-zinc-800 bg-zinc-900 text-zinc-300 hover:text-white hover:bg-zinc-800 shadow-sm"
+              : "border-zinc-800 bg-zinc-900 text-zinc-300 hover:text-white hover:bg-zinc-800 shadow-sm active:scale-95"
           }`}
         >
           <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -174,7 +170,7 @@ export const PortfolioForm: React.FC<PortfolioFormProps> = ({
           <button
             type="button"
             onClick={() => setActiveStep((prev) => Math.min(steps.length - 1, prev + 1))}
-            className="flex items-center gap-1 sm:gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors cursor-pointer shadow-md shadow-emerald-950/60 active:scale-95"
+            className="flex items-center gap-1 sm:gap-1.5 px-3.5 sm:px-4.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors cursor-pointer shadow-md shadow-emerald-950/60 active:scale-95 min-h-[38px]"
           >
             <span>Continue</span>
             <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -183,7 +179,7 @@ export const PortfolioForm: React.FC<PortfolioFormProps> = ({
           <button
             type="button"
             onClick={() => setActiveStep(0)}
-            className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors cursor-pointer"
+            className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors cursor-pointer min-h-[38px] active:scale-95"
           >
             <span>Restart</span>
           </button>

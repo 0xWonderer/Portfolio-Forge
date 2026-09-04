@@ -40,7 +40,7 @@ export const SocialsStep: React.FC<SocialsStepProps> = ({ socials, onChange }) =
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full min-w-0">
       {/* Section Header */}
       <div className="flex items-center justify-between gap-3 pb-3 border-b border-zinc-800/80">
         <div>
@@ -55,7 +55,7 @@ export const SocialsStep: React.FC<SocialsStepProps> = ({ socials, onChange }) =
         <button
           type="button"
           onClick={addSocial}
-          className="btn-base btn-primary h-8.5 px-3"
+          className="btn-base btn-primary h-8.5 px-3 shadow-sm shrink-0"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Add Channel</span>
@@ -63,21 +63,21 @@ export const SocialsStep: React.FC<SocialsStepProps> = ({ socials, onChange }) =
       </div>
 
       {socials.length > 0 ? (
-        <div className="space-y-3">
+        <div className="space-y-3 w-full min-w-0">
           {socials.map((soc, idx) => (
             <div
               key={soc.id || idx}
-              className="p-4 bg-zinc-950/70 border border-zinc-800/80 rounded-xl space-y-3 transition-all focus-within:border-emerald-500/40 shadow-sm"
+              className="p-3.5 sm:p-4 bg-zinc-950/70 border border-zinc-800/80 rounded-xl space-y-3 transition-all focus-within:border-emerald-500/40 shadow-sm w-full min-w-0"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-emerald-400">
-                    Endpoint #{idx + 1}
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <span className="text-xs font-mono font-bold text-emerald-400 shrink-0">
+                    #{idx + 1}
                   </span>
                   <select
                     value={soc.platform}
                     onChange={(e) => updateSocial(soc.id, { platform: e.target.value as SocialPlatform })}
-                    className="h-7.5 bg-zinc-900 border border-zinc-700/80 text-xs text-white rounded-lg px-2.5 outline-none focus:border-emerald-500 cursor-pointer font-medium"
+                    className="h-8 bg-zinc-900 border border-zinc-700/80 text-xs text-white rounded-lg px-2.5 outline-none focus:border-emerald-500 cursor-pointer font-medium max-w-[160px]"
                   >
                     {PLATFORMS.map((p) => (
                       <option key={p.value} value={p.value}>
@@ -89,15 +89,16 @@ export const SocialsStep: React.FC<SocialsStepProps> = ({ socials, onChange }) =
                 <button
                   type="button"
                   onClick={() => removeSocial(soc.id)}
-                  className="btn-base btn-ghost h-7 w-7 p-0 text-zinc-400 hover:text-rose-400"
+                  className="btn-base btn-ghost h-7 w-7 p-0 text-zinc-400 hover:text-rose-400 shrink-0"
                   title="Remove Link"
+                  aria-label={`Remove ${soc.platform} channel`}
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full min-w-0">
+                <div className="min-w-0">
                   <label className="block text-[11px] text-zinc-300 font-semibold mb-1">
                     Destination URL / Address <span className="text-rose-400">*</span>
                   </label>
@@ -113,7 +114,7 @@ export const SocialsStep: React.FC<SocialsStepProps> = ({ socials, onChange }) =
                     className="form-input"
                   />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <label className="block text-[11px] text-zinc-300 font-semibold mb-1">
                     Display Label / Handle (optional)
                   </label>
@@ -130,7 +131,7 @@ export const SocialsStep: React.FC<SocialsStepProps> = ({ socials, onChange }) =
           ))}
         </div>
       ) : (
-        <div className="p-8 bg-zinc-950/40 border border-dashed border-zinc-800 rounded-xl text-center space-y-2">
+        <div className="p-6 sm:p-8 bg-zinc-950/40 border border-dashed border-zinc-800 rounded-xl text-center space-y-2">
           <p className="text-xs text-zinc-400">No social channels configured.</p>
           <button
             type="button"

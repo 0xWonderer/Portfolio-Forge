@@ -4,7 +4,10 @@ import { getThemeClasses } from "@/lib/theme-colors";
 export function generateSynthwaveCss(data: PortfolioData): string {
   const theme = getThemeClasses(data.themeConfig?.accentColor);
 
-  return `/* PortfolioForge - Synthwave Cyber Standalone Stylesheet */
+  return `/* ==========================================================================
+   PortfolioForge - Synthwave Cyber Standalone Stylesheet
+   Responsive & SEO-Optimized Architecture
+   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -27,6 +30,12 @@ export function generateSynthwaveCss(data: PortfolioData): string {
   padding: 0;
 }
 
+html {
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-page);
@@ -36,7 +45,9 @@ body {
   display: flex;
   justify-content: center;
   position: relative;
+  max-width: 100vw;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Perspective Grid Background */
@@ -62,17 +73,21 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 .hud-card {
   background: var(--bg-card);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-pink);
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 0 30px ${theme.hex}26;
   position: relative;
   overflow: hidden;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .hud-tag {
@@ -91,36 +106,36 @@ body {
 
 .hud-name {
   font-family: var(--font-mono);
-  font-size: 2.75rem;
+  font-size: clamp(1.85rem, 5.5vw, 2.75rem);
   font-weight: 800;
   color: #ffffff;
   text-shadow: 0 0 20px ${theme.hex}80;
   margin-bottom: 0.25rem;
+  line-height: 1.15;
+  word-break: break-word;
 }
 
 .hud-title {
   font-family: var(--font-mono);
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.25rem);
   color: var(--neon-cyan);
   margin-bottom: 1.25rem;
+  word-break: break-word;
 }
 
 .hud-bio {
   color: var(--text-muted);
   font-size: 0.95rem;
   line-height: 1.7;
+  word-break: break-word;
 }
 
 .two-col-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
-}
-
-@media (max-width: 768px) {
-  .two-col-grid {
-    grid-template-columns: 1fr;
-  }
+  width: 100%;
+  min-width: 0;
 }
 
 .section-title {
@@ -158,12 +173,8 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
-}
-
-@media (max-width: 768px) {
-  .projects-container {
-    grid-template-columns: 1fr;
-  }
+  width: 100%;
+  min-width: 0;
 }
 
 .hud-project-card {
@@ -174,6 +185,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 0;
 }
 
 .hud-project-card:hover {
@@ -185,6 +197,7 @@ body {
   font-family: var(--font-mono);
   font-size: 1.05rem;
   color: #ffffff;
+  word-break: break-word;
 }
 
 .project-link {
@@ -198,6 +211,7 @@ body {
   color: var(--text-muted);
   line-height: 1.6;
   margin: 0.75rem 0 1rem 0;
+  word-break: break-word;
 }
 
 .hud-footer {
@@ -207,6 +221,37 @@ body {
   color: var(--neon-pink);
   opacity: 0.7;
   padding: 1rem 0;
+}
+
+/* Mobile Breakpoints */
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .two-col-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .projects-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hud-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.5rem;
+  }
+
+  .hud-card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
 }
 `;
 }

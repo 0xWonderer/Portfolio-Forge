@@ -6,10 +6,24 @@
     --foreground: #f1f5f9;
   }
 
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    max-width: 100vw;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background-color: var(--background);
     color: var(--foreground);
     min-height: 100vh;
+    min-height: 100dvh;
+    max-width: 100vw;
+    overflow-x: hidden;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
@@ -57,6 +71,16 @@
   background: rgba(16, 185, 129, 0.6);
 }
 
+/* Mobile Scroll Snap Utilities */
+.snap-x-mandatory {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
 /* Unified Tool Design System Classes */
 .btn-base {
   display: inline-flex;
@@ -71,6 +95,7 @@
   white-space: nowrap;
   flex-shrink: 0;
   user-select: none;
+  min-height: 2rem;
 }
 
 .btn-primary {
@@ -118,17 +143,27 @@
   border-color: #3f3f46;
 }
 
+/* Touch-optimized, mobile-friendly Form Inputs */
 .form-input {
   width: 100%;
-  height: 2.25rem;
+  min-width: 0;
+  height: 2.35rem;
   background-color: rgba(24, 24, 27, 0.9);
   border: 1px solid rgba(63, 63, 70, 0.8);
   border-radius: 0.75rem;
   padding: 0 0.75rem;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: #ffffff;
   outline: none;
   transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .form-input {
+    font-size: 16px; /* Prevents auto-zoom on iOS safari */
+    height: 2.5rem;
+  }
 }
 
 .form-input:focus {
@@ -142,16 +177,24 @@
 
 .form-textarea {
   width: 100%;
+  min-width: 0;
   background-color: rgba(24, 24, 27, 0.9);
   border: 1px solid rgba(63, 63, 70, 0.8);
   border-radius: 0.75rem;
   padding: 0.75rem;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: #ffffff;
   outline: none;
-  resize: none;
+  resize: vertical;
   line-height: 1.6;
   transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .form-textarea {
+    font-size: 16px; /* Prevents auto-zoom on iOS safari */
+  }
 }
 
 .form-textarea:focus {

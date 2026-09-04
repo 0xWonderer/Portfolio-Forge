@@ -51,7 +51,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ skills, onChange }) => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full min-w-0">
       {/* Section Header */}
       <div className="flex items-center justify-between gap-3 pb-3 border-b border-zinc-800/80">
         <div>
@@ -66,19 +66,19 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ skills, onChange }) => {
       </div>
 
       {/* Input box */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full min-w-0">
         <input
           type="text"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type a skill and press Enter (e.g. Rust, Go, Next.js)..."
-          className="form-input flex-1"
+          placeholder="Type a skill & press Enter (e.g. Rust, Go, Next.js)..."
+          className="form-input flex-1 min-w-0"
         />
         <button
           type="button"
           onClick={() => addSkill(inputVal)}
-          className="btn-base btn-primary h-9 px-3.5"
+          className="btn-base btn-primary h-9 px-4 shrink-0 shadow-sm text-xs"
         >
           <Plus className="w-4 h-4" />
           <span>Add</span>
@@ -86,7 +86,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ skills, onChange }) => {
       </div>
 
       {/* Current skills list */}
-      <div>
+      <div className="w-full min-w-0">
         <div className="flex items-center justify-between mb-2">
           <label className="text-xs font-semibold text-zinc-300">
             Active Competencies
@@ -97,18 +97,18 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ skills, onChange }) => {
         </div>
 
         {skills.length > 0 ? (
-          <div className="flex flex-wrap gap-2 p-3 bg-zinc-950/60 border border-zinc-800/80 rounded-xl min-h-16">
+          <div className="flex flex-wrap gap-2 p-3 bg-zinc-950/60 border border-zinc-800/80 rounded-xl min-h-16 w-full min-w-0">
             {skills.map((skill) => (
               <span
                 key={skill}
-                className="bg-zinc-850 text-zinc-200 border border-zinc-700/80 text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors group shadow-sm"
+                className="bg-zinc-850 text-zinc-200 border border-zinc-700/80 text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors group shadow-sm max-w-full"
               >
-                <span className="font-medium">{skill}</span>
+                <span className="font-medium truncate">{skill}</span>
                 <button
                   type="button"
                   onClick={() => removeSkill(skill)}
-                  className="text-zinc-400 hover:text-rose-400 transition-colors cursor-pointer"
-                  title="Remove"
+                  className="text-zinc-400 hover:text-rose-400 transition-colors cursor-pointer shrink-0"
+                  aria-label={`Remove skill ${skill}`}
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -123,7 +123,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ skills, onChange }) => {
       </div>
 
       {/* Quick suggestions */}
-      <div>
+      <div className="w-full min-w-0">
         <div className="flex items-center gap-1.5 text-xs font-semibold text-zinc-400 mb-2">
           <Sparkles className="w-3.5 h-3.5 text-amber-400" />
           <span>Quick Add Suggestions:</span>
@@ -134,7 +134,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ skills, onChange }) => {
               key={skill}
               type="button"
               onClick={() => addSkill(skill)}
-              className="btn-base btn-secondary h-7 px-2.5 text-[11px]"
+              className="btn-base btn-secondary h-7.5 px-2.5 text-[11px]"
             >
               <span className="text-emerald-400 font-bold">+</span>
               <span>{skill}</span>
